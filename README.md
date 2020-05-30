@@ -32,8 +32,27 @@ The task is episodic, and in order to solve the environment, the agent must get 
 
 ### Instructions
 
+Start by creating a new virtual environment running under Python 3.6
+
+```shell
+$ virtualenv drl
+```
+
+Activate the environment using
+
+```shell
+$ source drl/bin/activate
+```
+
+Install the dependencies for the project
+
+```shell
+$ cd python/
+$ pip install .
+```
+
 To start training the agent, run
 
 ```shell
-$ python nav.py
+$ python main.py
 ```
