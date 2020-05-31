@@ -2,10 +2,24 @@ from unityagents import UnityEnvironment
 from dqn_agent import Agent
 from collections import deque
 import torch
+import matplotlib.pyplot as plt
 import numpy as np
 
+import sys
+
+# Handle arguments passing into the file
+if len(sys.argv) < 2 or (sys.argv[1] != 'true' and sys.argv[1] != 'false'):
+    print('Usage: ')
+    print('\tpython main.py <Double>')
+    print('\tWhere <Double> can take either true or false, with true means using double DQN.')
+    exit(1)
+
+DDQN = False
+if sys.argv[1] == 'true':
+    DDQN = True
+
 # load the environment
-env = UnityEnvironment(file_name="Banana_Linux/Banana.x86_64")
+env = UnityEnvironment(file_name="Banana_Linux_NoVis/Banana.x86_64")
 
 # get the default brain
 brain_name = env.brain_names[0]
@@ -28,7 +42,7 @@ state_size = len(state)
 print('States have length:', state_size)
 
 # define the agent
-agent = Agent(state_size, action_size, 0)
+agent = Agent(state_size, action_size, 0, DDQN)
 
 def train(episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
     scores = []
@@ -63,7 +77,12 @@ def train(episodes=2000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.99
 
 def main():
     scores = train()   
-    print("Score: {}".format(scores))
+    # Plot and save the rewards
+    plt.clf()
+    plt.plot(np.arange(len(scores)), scores)
+    plt.ylabel('Reward')
+    plt.xlabel('Episode')
+    plt.savefig('reward.png')
     env.close()
 
 if __name__ == '__main__':
