@@ -54,5 +54,12 @@ $ pip install .
 To start training the agent, run
 
 ```shell
-$ python main.py
+$ python main.py <Double>
+
+Usage: 
+    python main.py <Double>
+    Where <Double> can take either true or false, with true means using double DQN.
 ```
+
+### Results
+For regular DQN, the environment was solved after 503 episodes. For Double DQN, the environment was solved after 381 episodes!
